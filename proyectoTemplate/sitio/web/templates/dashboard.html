@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background: #343a40;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+        }
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        .sidebar a:hover {
+            background: #495057;
+        }
+        
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            width: calc(100% - 250px);
+        }
+        .header {
+            background: #007bff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .section {
+            background: #f8f9fa;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background: #343a40;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: calc(100% - 250px);
+        }
+        .notification-panel {
+            background: #ffffff;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        .notification {
+            border-bottom: 1px solid #e9ecef;
+            padding: 10px 0;
+        }
+        .notification:last-child {
+            border-bottom: none;
+        }
+        .chart {
+            height: 300px;
+            background: #e9ecef;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .logout-btn {
+            background: #dc3545; /* Rojo */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+        }
+        .logout-btn:hover {
+            background: #c82333;
+        }
+
+        
+    </style>
+    <script>
+        function confirmLogout() {
+            if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
+                // Redirigir a la vista de cierre de sesión
+                window.location.href = "{% url 'logout' %}"; // Asegúrate de tener una URL de cierre de sesión
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Mi Dashboard</h2>
+        <a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> Inicio</a>
+        <a href="{% url 'upload_project' %}"><i class="fas fa-upload"></i> Subir Proyecto</a>
+        <a href="{% url 'manage_projects' %}"><i class="fas fa-project-diagram"></i> Gestión de Proyectos</a>
+        <a href="#"><i class="fas fa-users"></i> Usuarios</a>
+        <a href="#"><i class="fas fa-cog"></i> Configuraciones</a>
+        <button class="logout-btn" onclick="confirmLogout()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+    </div>
+    
+    
+
+
+<div class="content">
+    <div class="header">
+        <h1>Bienvenido al Dashboard</h1>
+    </div>
+
+    <div class="section">
+        <h2>Proyectos</h2>
+        <ul>
+            {% for project in projects %}
+                <li>
+                    <h3>{{ project.title }}</h3>
+                    <p>{{ project.description }}</p>
+                    {% if project.image %}
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}" style="max-width: 200px;">
+                    {% endif %}
+                </li>
+            {% empty %}
+                <li>No hay proyectos disponibles.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="footer">
+        &copy; 2024 Tu Empresa. Todos los derechos reservados.
+    </div>
+</div>
+
+</body>
+</html>

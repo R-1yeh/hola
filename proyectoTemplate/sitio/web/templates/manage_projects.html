@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Proyectos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estilos similares a los de dashboard.html */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background: #343a40;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            width: calc(100% - 250px);
+        }
+        /* Agrega más estilos según sea necesario */
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Mi Dashboard</h2>
+    <a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> Inicio</a>
+    <a href="{% url 'upload_project' %}"><i class="fas fa-upload"></i> Subir Proyecto</a>
+    <a href="{% url 'manage_projects' %}"><i class="fas fa-project-diagram"></i> Gestión de Proyectos</a>
+    <a href="#"><i class="fas fa-users"></i> Usuarios</a>
+    <a href="#"><i class="fas fa-cog"></i> Configuraciones</a>
+    <button class="logout-btn" onclick="confirmLogout()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+</div>
+
+<div class="content">
+    <h1>Gestión de Proyectos</h1>
+    <ul>
+        {% for project in projects %}
+            <li>
+                <h3>{{ project.title }}</h3>
+                <p>{{ project.description }}</p>
+                {% if project.image %}
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}" style="max-width: 200px;">
+                {% endif %}
+                <!-- Aquí puedes agregar botones para editar o eliminar -->
+                <a href="{% url 'edit_project' project.id %}">Editar</a>
+                <a href="{% url 'delete_project' project.id %}">Eliminar</a>
+            </li>
+        {% empty %}
+            <li>No hay proyectos disponibles.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+</body>
+</html>
